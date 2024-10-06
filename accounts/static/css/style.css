@@ -1,0 +1,49 @@
+/* booking/static/css/style.css */
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+}
+
+h1 {
+    font-weight: bold;
+    color: #343a40;
+}
+
+footer {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+}
+
+.card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.navbar-nav .nav-link {
+    font-size: 1rem;
+    margin-left: 1rem;
+}
+
+.card {
+    border: 1px solid #dee2e6; /* Card border color */
+    border-radius: 0.5rem; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+}
+
+.card-body {
+    padding: 2rem; /* Increase padding for a comfortable feel */
+}
+
+.form-label {
+    font-weight: bold; /* Make labels stand out */
+}
+
+.text-muted {
+    font-size: 0.9rem; /* Slightly smaller text for additional information */
+}

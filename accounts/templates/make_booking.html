@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% load form_tags %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center my-4">Make a Booking for {{ press.name }}</h1>
+    <div class="card mx-auto" style="max-width: 600px;">
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                
+                <div class="mb-4">
+                    <label for="{{ form.date.id_for_label }}" class="form-label">Booking Date</label>
+                    <p class="text-muted">Date format: <strong>mm/dd/yyyy</strong></p>
+                    {{ form.date|add_class:"form-control" }}
+                </div>
+
+                <div class="mb-4">
+                    <label for="{{ form.description.id_for_label }}" class="form-label">Description</label>
+                    {{ form.description|add_class:"form-control" }}
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Submit Booking</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

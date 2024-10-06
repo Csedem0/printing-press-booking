@@ -1,0 +1,15 @@
+<!-- booking/templates/register.html -->
+{% extends 'base.html' %} <!-- Extend base template -->
+
+{% block title %}Customer Registration{% endblock %} <!-- Set page title -->
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">Customer Registration</h1>
+    <form method="post" class="mt-4">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Register</button>
+    </form>
+</div>
+{% endblock %}

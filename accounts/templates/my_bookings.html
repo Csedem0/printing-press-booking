@@ -1,0 +1,19 @@
+<!-- booking/templates/my_bookings.html -->
+{% extends 'base.html' %}
+
+{% block title %}My Bookings{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center my-4">My Bookings</h1>
+    <div class="list-group">
+        {% for booking in bookings %}
+        <div class="list-group-item">
+            <h5 class="mb-1">Press: {{ booking.printing_press.name }}</h5>
+            <p class="mb-1"><strong>Date:</strong> {{ booking.date }}</p>
+            <p class="mb-1"><strong>Status:</strong> {{ booking.status }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

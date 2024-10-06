@@ -1,0 +1,22 @@
+<!-- booking/templates/register_owner.html -->
+{% extends 'base.html' %} <!-- Extend base template -->
+
+{% block title %}Press Owner Registration{% endblock %} <!-- Set page title -->
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">Press Owner Registration</h1>
+    <form method="post" class="mt-4">
+        {% csrf_token %}
+        <div class="mb-3">
+            <h4>User Information</h4>
+            {{ user_form.as_p }}
+        </div>
+        <div class="mb-3">
+            <h4>Owner Information</h4>
+            {{ owner_form.as_p }}
+        </div>
+        <button type="submit" class="btn btn-success">Register</button>
+    </form>
+</div>
+{% endblock %}

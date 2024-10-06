@@ -1,0 +1,24 @@
+<!-- booking/templates/index.html -->
+{% extends 'base.html' %}
+
+{% block title %}Available Printing Presses{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center my-4">Available Printing Presses</h1>
+    <div class="row">
+        {% for press in presses %}
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">{{ press.name }}</h5>
+                    <p class="card-text"><strong>Location:</strong> {{ press.location }}</p>
+                    <p class="card-text"><strong>Contact:</strong> {{ press.contact_info }}</p>
+                    <a href="{% url 'make_booking' press.id %}" class="btn btn-primary">Book Now</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

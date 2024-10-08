@@ -6,12 +6,19 @@
 {% block content %}
 <div class="container">
     <h1 class="text-center my-4">My Bookings</h1>
-    <div class="list-group">
+    <div class="row">
         {% for booking in bookings %}
-        <div class="list-group-item">
-            <h5 class="mb-1">Press: {{ booking.printing_press.name }}</h5>
-            <p class="mb-1"><strong>Date:</strong> {{ booking.date }}</p>
-            <p class="mb-1"><strong>Status:</strong> {{ booking.status }}</p>
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Press: {{ booking.printing_press.name }}</h5>
+                    <p class="card-text"><strong>Date:</strong> {{ booking.date }}</p>
+                    <p class="card-text"><strong>Status:</strong> <span class="badge {% if booking.status == 'Completed' %} bg-success {% elif booking.status == 'Accepted' %} bg-warning text-dark {% else %} bg-secondary {% endif %}">{{ booking.status }}</span></p>
+                </div>
+                <div class="card-footer text-muted">
+                    Booked by: {{ booking.customer.username }}
+                </div>
+            </div>
         </div>
         {% endfor %}
     </div>

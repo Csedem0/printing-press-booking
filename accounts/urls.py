@@ -6,6 +6,7 @@ from accounts import views
 
 urlpatterns = [
     path('', views.index, name='home'),
+    path('indexa/', views.indexa, name='indexa'),
     path('press/<int:press_id>/book/', views.make_booking, name='make_booking'),
     path('my-bookings/', views.my_bookings, name='my_bookings'),
     path('manage-bookings/', views.manage_bookings, name='manage_bookings'),

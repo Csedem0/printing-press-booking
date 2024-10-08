@@ -1,17 +1,19 @@
 # booking/views.py
 
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from .models import PrintingPress, Booking
-from .forms import BookingForm
-from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
-from .forms import UserRegistrationForm, PrintingPressOwnerForm
 from django.contrib.auth.decorators import login_required
+from django.db import transaction
+from .models import PrintingPress, Booking
+from .forms import UserRegistrationForm, PrintingPressOwnerForm, BookingForm
 
 def index(request):
     presses = PrintingPress.objects.all()
     return render(request, 'index.html', {'presses': presses})
+
+def indexa(request):
+    presses = PrintingPress.objects.all()
+    return render(request, 'indexa.html', {'presses': presses})
 
 @login_required
 def make_booking(request, press_id):
@@ -38,7 +40,6 @@ def manage_bookings(request):
     bookings = Booking.objects.filter(printing_press__owner=request.user)
     return render(request, 'manage_bookings.html', {'bookings': bookings})
 
-
 # Customer registration
 def register_customer(request):
     if request.method == 'POST':
@@ -53,23 +54,40 @@ def register_customer(request):
         form = UserRegistrationForm()
     return render(request, 'registration/register.html', {'form': form, 'title': 'Customer Registration'})
 
-# Press owner registration
+# Press owner registration with atomic transaction
+@transaction.atomic
 def register_owner(request):
     if request.method == 'POST':
         user_form = UserRegistrationForm(request.POST)
         owner_form = PrintingPressOwnerForm(request.POST)
         if user_form.is_valid() and owner_form.is_valid():
-            user = user_form.save(commit=False)
-            user.set_password(user_form.cleaned_data['password'])
-            user.save()
-            press = owner_form.save(commit=False)
-            press.owner = user
-            press.save()
-            login(request, user)
-            return redirect('home')
+            # Start atomic transaction to ensure both user and press are created
+            try:
+                # Save user
+                user = user_form.save(commit=False)
+                user.set_password(user_form.cleaned_data['password'])
+                user.save()
+                
+                # Save PrintingPress with linked user
+                press = owner_form.save(commit=False)
+                press.owner = user
+                press.save()
+
+                # Automatically log in the user
+                login(request, user)
+                return redirect('home')
+            except Exception as e:
+                transaction.set_rollback(True)  # Rollback if anything fails
+                return render(request, 'registration/register_owner.html', {
+                    'user_form': user_form,
+                    'owner_form': owner_form,
+                    'error': str(e),  # Display error message
+                    'title': 'Press Owner Registration'
+                })
     else:
         user_form = UserRegistrationForm()
         owner_form = PrintingPressOwnerForm()
+    
     return render(request, 'registration/register_owner.html', {
         'user_form': user_form, 
         'owner_form': owner_form, 
